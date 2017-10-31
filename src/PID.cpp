@@ -1,5 +1,6 @@
 #include "PID.h"
 #include <cmath>
+#include <limits>
 
 using namespace std;
 
@@ -37,7 +38,7 @@ void PID::Init(double Kp, double Ki, double Kd) {
         p[1] = Kd;
         p[2] = Ki;
 
-        best_err = 99999999;
+        best_err = std::numeric_limits<double>::max();
         err = 0.0;
 
         debug = true;
@@ -77,10 +78,9 @@ double PID::TotalTwiddleError() {
 
 void PID::twiddle(double cte) {
 	count++;
-	//if(count < 300) return;
-
-    err = (err + cte*cte)/count;
-
+    err = err + cte*cte;
+	if(count < 500) return;
+	
     switch(cur_state) {
     case 0 : {
         if(fabs(err) < fabs(best_err)) {
@@ -112,10 +112,14 @@ void PID::twiddle(double cte) {
         break;
     }
     case 3: {
-        last_index = (last_index + 1) %2;
+        last_index = (last_index + 1) % 3;
         cur_state = 1;
         break;
     }
     }
+	
+	err = 0;
+	count = 0.0;
+	return;
 
 }
