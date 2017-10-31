@@ -43,7 +43,7 @@ int main() {
 	//Kp: 2.41471  Ki:  0.001  Kd:  2.30483
     //Kp: 0.663445  Ki:  0.001  Kd:  0.81051
     pid.Init(0.3, 0.001, 2.7); //(0.13, 0.001, 3.0); 
-    pid.debug = true;  //true: run the twiddle program
+    pid.debug = false;  //true: run the twiddle program
 
     h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
         // "42" at the start of the message means there's a websocket message event.
@@ -87,7 +87,7 @@ int main() {
                     //std::cout << " -- twiddle p0:  " << pid.p[0] <<     "  p1:  " << pid.p[1] <<   "  p2:  " << pid.p[2] << std::endl;
                     std::cout << " -- twiddle dp0: " << pid.dp[0] <<    "  dp1: " << pid.dp[1] <<  "  dp2: " << pid.dp[2] << std::endl;
                     std::cout << " -- best_err:    " << pid.best_err << "  err: " << pid.err << std::endl;
-					std::cout << " count: " << pid.count << std::endl;
+		    std::cout << " count: " << pid.count << std::endl;
 
                     if(pid.debug == true && fabs(pid.TotalTwiddleError()) < 0.001) {
                         pid.debug = false;
