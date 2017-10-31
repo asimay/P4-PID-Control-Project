@@ -77,9 +77,9 @@ double PID::TotalTwiddleError() {
 }
 
 void PID::twiddle(double cte) {
-	count++;
+    count++;
     err = err + cte*cte;
-	if(count < 500) return;
+    if(count < 500) return;
 	
     switch(cur_state) {
     case 0 : {
@@ -118,8 +118,8 @@ void PID::twiddle(double cte) {
     }
     }
 	
-	err = 0;
-	count = 0.0;
-	return;
+    err = 0;
+    count = 0.0;
+    return;
 
 }
